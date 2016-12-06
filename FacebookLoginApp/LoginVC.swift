@@ -10,7 +10,8 @@ import UIKit
 import FacebookLogin
 import FBSDKCoreKit
 
-class LoginVC: UIViewController, LoginButtonDelegate {
+//class LoginVC: UIViewController, LoginButtonDelegate {
+class LoginVC: UIViewController {
 
     
     
@@ -79,34 +80,34 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     //--------------------------------------------------------------------------------------------
     // MARK: - -Facebook Delegate Methods-
 
-    func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
-        print("User Logged In")
-        
-        switch result {
-        case .cancelled:
-            print("\n handle cacellation \n")
-            break
-        case .failed(let error):
-            print("error: \(error)")
-            break
-        case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-            print("\nLogged in SUCCESSFULLY!")
-            print("\nToken: \(accessToken.authenticationToken)")
-            print("\ngrantedPermissions: \(grantedPermissions)")
-            print("\ndeclinedPermissions: \(declinedPermissions)")
-            
-            self.getFacebookGraphAndSegue(token: accessToken.authenticationToken)
-            
-            break
-        }
-        
-
-        
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: LoginButton) {
-        print("\n====  Did Logout =====\n")
-    }
+//    func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
+//        print("User Logged In")
+//        
+//        switch result {
+//        case .cancelled:
+//            print("\n handle cacellation \n")
+//            break
+//        case .failed(let error):
+//            print("error: \(error)")
+//            break
+//        case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+//            print("\nLogged in SUCCESSFULLY!")
+//            print("\nToken: \(accessToken.authenticationToken)")
+//            print("\ngrantedPermissions: \(grantedPermissions)")
+//            print("\ndeclinedPermissions: \(declinedPermissions)")
+//            
+//            self.getFacebookGraphAndSegue(token: accessToken.authenticationToken)
+//            
+//            break
+//        }
+//        
+//
+//        
+//    }
+//    
+//    func loginButtonDidLogOut(_ loginButton: LoginButton) {
+//        print("\n====  Did Logout =====\n")
+//    }
 
     
     //--------------------------------------------------------------------------------------------
