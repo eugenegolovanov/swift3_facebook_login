@@ -22,14 +22,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         
         if (FBSDKAccessToken.current() != nil) {
-//            // User is already logged in, do work such as go to next view controller.
-//            let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width-40, height: 44))
-//            button.backgroundColor = UIColor.red
-//            button.addTarget(self, action: #selector(self.onFacebookLogout(_:)), for: .touchUpInside)
-//            button.center = self.view.center
-//            button.setTitle("Logout From Facebook", for: .normal)
-//            self.view.addSubview(button)
-            
             guard let token = FBSDKAccessToken.current().tokenString else {
                 print("no token")
                 return
@@ -39,13 +31,47 @@ class LoginVC: UIViewController, LoginButtonDelegate {
             
         }
         else {
-            let loginButton = LoginButton(readPermissions: [ .publicProfile, .email, .userFriends ])
-            loginButton.center = self.view.center
-            loginButton.delegate = self
-            self.view.addSubview(loginButton)
+//            let loginButton = LoginButton(readPermissions: [ .publicProfile, .email, .userFriends ])
+//            loginButton.center = self.view.center
+//            loginButton.delegate = self
+//            self.view.addSubview(loginButton)
+            
+            // Add a custom login button to your app
+            let myLoginButton = UIButton(type: .custom)
+            myLoginButton.backgroundColor = UIColor.blue
+            myLoginButton.frame = CGRect(x: 0, y: 0, width: self.view.frame.width-40, height: 40)
+            myLoginButton.center = view.center;
+            myLoginButton.setTitle("Facebook custom login", for: .normal)
+            myLoginButton.addTarget(self, action: #selector(self.loginButtonClicked), for: .touchUpInside)
+            view.addSubview(myLoginButton)
+
         }
 
 
+    }
+    
+    //--------------------------------------------------------------------------------------------
+    // MARK: - Custom Facebook login button
+
+    // Once the button is clicked, show the login dialog
+    @objc func loginButtonClicked() {
+        let loginManager = LoginManager()
+        loginManager.logIn([ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                print("\nLogged in SUCCESSFULLY!")
+                print("\nToken: \(accessToken.authenticationToken)")
+                print("\ngrantedPermissions: \(grantedPermissions)")
+                print("\ndeclinedPermissions: \(declinedPermissions)")
+                
+                self.getFacebookGraphAndSegue(token: accessToken.authenticationToken)
+            }
+        }
+        
     }
 
 
